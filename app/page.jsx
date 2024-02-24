@@ -1,13 +1,15 @@
 import Hero from "@/components/Hero";
 import InfoBoxes from "@/components/InfoBoxes";
+import HomeProperties from "@/components/HomeProperties";
 
 const HomePage = () => {
   return (
     <>
-    <Hero />
-    <InfoBoxes />
+      <Hero />
+      <InfoBoxes />
+      <HomeProperties />
     </>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

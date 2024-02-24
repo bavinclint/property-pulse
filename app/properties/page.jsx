@@ -1,5 +1,5 @@
-import PropertyCard from '@/components/PropertyCard';
-import properties from '@/properties.json';
+import PropertyCard from "@/components/PropertyCard";
+import properties from "@/properties.json";
 
 const PropertyPage = () => {
   return (
@@ -13,10 +13,10 @@ const PropertyPage = () => {
               <PropertyCard key={property._id} property={property} />
             ))}
           </div>
-        )}   
+        )}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default PropertyPage
+export default PropertyPage;
