@@ -46,8 +46,8 @@ const PropertyCard = ({ property }) => {
             <span className="md:hidden lg:inline">Beds</span>
           </p>
           <p>
-            <FaBath className="inline mr-2" /> {property.baths}{" "}
-            <span className="md:hidden lg:inline">Baths</span>
+            <FaBath className="inline mr-2" />
+            {property.baths} <span className="md:hidden lg:inline">Baths</span>
           </p>
           <p>
             <FaRulerCombined className="inline mr-2" />
@@ -62,11 +62,13 @@ const PropertyCard = ({ property }) => {
               <FaMoneyBill className="inline mr-2" /> Nightly
             </p>
           )}
+
           {property.rates.weekly && (
             <p>
               <FaMoneyBill className="inline mr-2" /> Weekly
             </p>
           )}
+
           {property.rates.monthly && (
             <p>
               <FaMoneyBill className="inline mr-2" /> Monthly
