@@ -1,22 +1,30 @@
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
+import cloudinary from "@/config/cloudinary";
 
-// Get /api/properties
+// GET /api/properties
 export const GET = async (request) => {
   try {
     await connectDB();
 
-    const properties = await Property.find({});
+    const page = request.nextUrl.searchParams.get("page") || 1;
+    const pageSize = request.nextUrl.searchParams.get("pageSize") || 6;
 
-    return new Response(JSON.stringify(properties), {
-      status: 200,
-    });
+    const skip = (page - 1) * pageSize;
+
+    const total = await Property.countDocuments({});
+    const properties = await Property.find({}).skip(skip).limit(pageSize);
+
+    const result = {
+      total,
+      properties,
+    };
+
+    return Response.json(result);
   } catch (error) {
     console.log(error);
-    return new Response("Something Went Wrong", {
-      status: 500,
-    });
+    return new Response("Something Went Wrong", { status: 500 });
   }
 };
 
@@ -36,6 +44,7 @@ export const POST = async (request) => {
 
     // Access all values from amenities and images
     const amenities = formData.getAll("amenities");
+
     const images = formData
       .getAll("images")
       .filter((image) => image.name !== "");
@@ -66,14 +75,17 @@ export const POST = async (request) => {
         phone: formData.get("seller_info.phone"),
       },
       owner: userId,
-      // images,
     };
 
     // Upload image(s) to Cloudinary
-    const imageUploadPromises = [];
+    // NOTE: this will be an array of strings, not a array of Promises
+    // So imageUploadPromises has been changed to imageUrls to more
+    // declaratively represent it's type.
 
-    for (const image of images) {
-      const imageBuffer = await image.arrayBuffer();
+    const imageUrls = [];
+
+    for (const imageFile of images) {
+      const imageBuffer = await imageFile.arrayBuffer();
       const imageArray = Array.from(new Uint8Array(imageBuffer));
       const imageData = Buffer.from(imageArray);
 
@@ -88,27 +100,20 @@ export const POST = async (request) => {
         }
       );
 
-      imageUploadPromises.push(result.secure_url);
-
-      // Wait for all images to upload
-      const uploadedImages = await Promise.all(imageUploadPromises);
-      // Add uploaded images to the propertyData object
-      propertyData.images = uploadedImages;
+      imageUrls.push(result.secure_url);
     }
+
+    // NOTE: here there is no need to await the resolution of
+    // imageUploadPromises as it's not a array of Promises it's an array of
+    // strings, additionally we should not await on every iteration of our loop.
+
+    propertyData.images = imageUrls;
 
     const newProperty = new Property(propertyData);
     await newProperty.save();
 
     return Response.redirect(
       `${process.env.NEXTAUTH_URL}/properties/${newProperty._id}`
-    );
-
-    // return new Response(JSON.stringify({ message: 'Success' }), {
-    //   status: 200,
-    // });
-
-    return new Response(
-      JSON.stringify({ message: "Success" }, { status: 200 })
     );
   } catch (error) {
     return new Response("Failed to add property", { status: 500 });
