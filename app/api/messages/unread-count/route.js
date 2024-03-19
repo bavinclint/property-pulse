@@ -4,6 +4,9 @@ import { getSessionUser } from '@/utils/getSessionUser';
 
 export const dynamic = 'force-dynamic';
 
+// NOTE: here we need to send back a Content-Type: application/json response
+// header rather than a text/plain header.
+
 // GET /api/messages/unread-count
 export const GET = async (request) => {
   try {
@@ -24,9 +27,7 @@ export const GET = async (request) => {
       read: false,
     });
 
-    return new Response(JSON.stringify(count), {
-      status: 200,
-    });
+    return Response.json(count);
   } catch (error) {
     console.log(error);
     return new Response('Something went wrong', { status: 500 });

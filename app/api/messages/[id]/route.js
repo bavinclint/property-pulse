@@ -4,6 +4,9 @@ import { getSessionUser } from '@/utils/getSessionUser';
 
 export const dynamic = 'force-dynamic';
 
+// NOTE: here we need to send back a Content-Type: application/json response
+// header rather than a text/plain header.
+
 // PUT /api/messages/:id
 export const PUT = async (request, { params }) => {
   try {
@@ -35,7 +38,7 @@ export const PUT = async (request, { params }) => {
 
     await message.save();
 
-    return new Response(JSON.stringify(message), { status: 200 });
+    return Response.json(message);
   } catch (error) {
     console.log(error);
     return new Response('Something went wrong', { status: 500 });

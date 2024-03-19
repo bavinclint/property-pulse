@@ -5,6 +5,9 @@ import { getSessionUser } from '@/utils/getSessionUser';
 
 export const dynamic = 'force-dynamic';
 
+// NOTE: here we need to send back a Content-Type: application/json response
+// header rather than a text/plain header.
+
 // GET /api/bookmarks
 export const GET = async () => {
   try {
@@ -24,7 +27,7 @@ export const GET = async () => {
     // Get users bookmarks
     const bookmarks = await Property.find({ _id: { $in: user.bookmarks } });
 
-    return new Response(JSON.stringify(bookmarks), { status: 200 });
+    return Response.json(bookmarks);
   } catch (error) {
     console.log(error);
     return new Response('Something went wrong', { status: 500 });
@@ -67,9 +70,7 @@ export const POST = async (request) => {
 
     await user.save();
 
-    return new Response(JSON.stringify({ message, isBookmarked }), {
-      status: 200,
-    });
+    return Response.json({ message, isBookmarked });
   } catch (error) {
     console.log(error);
     return new Response('Something went wrong', { status: 500 });
