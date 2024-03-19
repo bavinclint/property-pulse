@@ -6,6 +6,7 @@ import {
   FaCheck,
   FaMapMarker,
 } from "react-icons/fa";
+import PropertyMap from "@/components/PropertyMap";
 
 const PropertyDetails = ({ property }) => {
   return (
@@ -16,7 +17,7 @@ const PropertyDetails = ({ property }) => {
         <div className="text-gray-500 mb-4 flex align-middle justify-center md:justify-start">
           <FaMapMarker className="text-lg text-orange-700 mr-2" />
           <p className="text-orange-700">
-            {property.location.street}, {property.location.city},{" "}
+            {property.location.street}, {property.location.city}{" "}
             {property.location.state}
           </p>
         </div>
@@ -70,6 +71,7 @@ const PropertyDetails = ({ property }) => {
             <span className="hidden sm:inline">Baths</span>
           </p>
           <p>
+            <i className="fa-solid fa-ruler-combined"></i>
             <FaRulerCombined className="inline-block mr-2" />
             {property.square_feet}{" "}
             <span className="hidden sm:inline">sqft</span>
@@ -90,7 +92,7 @@ const PropertyDetails = ({ property }) => {
         </ul>
       </div>
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <div id="map"></div>
+        <PropertyMap property={property} />
       </div>
     </main>
   );
