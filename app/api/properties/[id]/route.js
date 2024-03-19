@@ -1,7 +1,7 @@
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
 
-// Get /api/properties/:id
+// GET /api/properties/:id
 export const GET = async (request, { params }) => {
   try {
     await connectDB();
@@ -15,8 +15,6 @@ export const GET = async (request, { params }) => {
     });
   } catch (error) {
     console.log(error);
-    return new Response("Something Went Wrong", {
-      status: 500,
-    });
+    return new Response("Something Went Wrong", { status: 500 });
   }
 };
