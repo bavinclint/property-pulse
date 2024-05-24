@@ -1,5 +1,23 @@
-/* NOTE: here we need to import the Poppins font to be able to use it with our Tailwind config */
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.navbar-default {
+  @apply transition-all duration-[0.5s] ease-[ease-in-out] h-16
+    bg-navbgMain shadow-[1px_2px_15px_rgba(100,100,100,0.3)];
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.nav-link {
+  @apply no-underline relative after:content-[""] after:absolute after:w-full after:h-0.5 after:bg-main after:origin-right after:transition-transform after:duration-[250ms] after:ease-[ease-in] after:scale-x-0 after:left-0 after:bottom-0 hover:after:origin-left hover:after:scale-x-100 py-1;
+}
+.nav-link.active {
+  @apply after:scale-x-100;
+}
+.dropdown-item {
+  @apply transition-all block duration-500 ease-[ease] font-semibold
+  min-w-[180px] px-[18px] py-3 text-black  hover:text-main 
+  hover:transition-all hover:duration-500 hover:ease-[ease];
+}
