@@ -297,7 +297,7 @@ const Navbar = () => {
                   >
                     Saved Properties
                   </Link>
-                  <button
+                  <Link
                     href=''
                     onClick={() => {
                       setIsProfileMenuOpen(false);
@@ -309,7 +309,7 @@ const Navbar = () => {
                     id='user-menu-item-2'
                   >
                     Sign Out
-                  </button>
+                  </Link>
                 </div>
               )}
             </div>
