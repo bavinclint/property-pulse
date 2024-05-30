@@ -13,7 +13,7 @@ const override = {
 const LoadingPage = () => {
   return (
     <ClipLoader
-      color='#3b82f6'
+      color='#bc6c25'
       cssOverride={override}
       size={150}
       aria-label='Loading Spinner'
